@@ -1,0 +1,186 @@
+v-model 
+    modelValue update:modelValue
+    .sync语法改为 v-model:title.capitalize
+    修饰符：
+        const props = definedProps({modelModifiers:{default:()=>({})}})
+            props.modelModifiers // { capitalize: true }
+        带数的修饰符 titleModifiers
+key
+    <template v-for> 设置在template上
+    v-if key非必须会自动生成
+v-if v-for优先级
+    v-if优先级更高
+v-bind合并
+    以后者优先
+v-on.native修饰符删除
+    emits中未定义的则作为根元素的事件
+异步组件
+    defineAsyncComponnet(()=>import('./test.vue'))
+    组件按需引入（可见区域才加载组件）
+    可以结合suspense使用
+    打包分包处理
+过滤器移除
+自定义指令
+    生命周期方法修改
+
+
+--------------------------------------------------------------------------------------------------------------
+ref 深层响应 更新时机
+事件修饰符 按键修饰符 表单修饰符 number trim lazy
+watch和计算属性 watch数据源（ref,reactive,getter函数，数组）;get函数是浅层监听;及时回调监听器immediate;watchEffect;flush
+模板引用 const child=ref(null) for循环则定义一个数组
+defineProps中的函数不能访问setup中定义的变量
+透传attribute 多根节点 v-bind="$attrs"；访问透传属性，const attrs = useAttrs()
+插槽，v-slot:header <template #header>  <slot name>
+依赖注入 provide inject解决了多层级传属性的问题；建议使用symbol作为健名
+异步组件defineAsyncComponent  路由还是原来的方式
+组合式函数，use开头，返回值包含多个ref的对象
+自定义指令，以v开头，生命周期改了 el绑定的元素，binding（value,oldValue,args冒号,modifier点）
+插件 可以是一个包含install方法的对象也可以是函数本身，全局组件或者指令或者provide或者全局属性，app.use(plugin)进行注册
+------------------------------------------------route--------------------------------------------------------------
+<router-link to="/">Go to Home</router-link> <router-view>
+this.$router this.$route.params 动态路由 /user/:id ;this.$route.query(url参数) 监听路由参数
+路由导航守卫 name-params path-query redirect alias;路由源信息meta
+组件离开-全局前置-组件更新-路由进入-组件进入-全局解析-全局后置钩子
+userRoute userRouter
+----------------------------------------------------pinia----------------------------------------------------------
+defineStore('name',{state:()=>({})});
+setup store（ref() 就是 state 属性；computed() 就是 getters；function() 就是 actions）;
+属性不能直接解构要使用storeToRefs,方法可以直接解构
+访问store.count++,重置store.$reset(),批量变更store.$patch({})可对象可函数
+订阅state
+    cartStore.$subscribe((mutation, state) => {})
+    watch(
+        pinia.state,
+        (state) => {
+            // 每当状态发生变化时，将整个 state 持久化到本地存储。
+            localStorage.setItem('piniaState', JSON.stringify(state))
+        },
+        { deep: true }
+    )
+getter
+    getters: {
+        doubleCount: (state) => state.count * 2,
+    },
+getters和actions可以使用this访问store实例
+持久化pinia 
+    pinia-plugin-persist
+    哪里需要就在哪个store中使用,默认使用sessionStorage，关闭网页就没了
+    {
+        persist:{
+            enabled:true,
+            strategies:[{
+                key:'user-store',
+                storage:loccalStorage,
+                paths:['age']//只持久化age属性
+            }]
+        }
+    }
+-------------------------------------------------------axios--------------------------------------------------------------------
+axios.get('url',{params:{}}).then().catch()
+axios.post('url',{})
+并发请求 Promise.all([])
+拦截器
+    axios.intercetors.request.use(function(){})
+    axios.intercetors.response.use(function(){})
+错误处理
+    validateStatus 自定义错误码
+    error.toJSON()获取错误信息
+取消请求
+    const CancelToken = axios.CancelToken;
+    axios.get('/user/12345', {
+        cancelToken: new CancelToken(function executor(c) {
+            // executor 函数接收一个 cancel 函数作为参数
+            cancel = c;
+        })
+    });
+
+    // 取消请求
+    cancel();
+    或者
+    const controller = new AbortController();
+    axios.get('/foo/bar', {
+        signal: controller.signal
+    })
+    controller.abort();
+
+
+----------------------------------------------------易忘点------------------------------------------------------
+挂载全局属性 
+    app.config.globalProperties.propertyName = value;
+    setup中获取全局属性const {proxy} = getCurrentInstance();proxy.propertyName;ctx生产环境获取不到
+ref相关的方法
+    isRef() unref() toRow()返回reactive的原始对象
+watch
+    watch watchEffect watchPostEffect
+    { immediate: true } 立即执行
+    { flush: 'post' } dom更新之后
+suspense
+    使用范围：setup中有顶层await语句，异步组件，解决多个loading问题
+    两个插槽：#default和#fallback（显示loading）
+teleport
+生命周期
+    setup中没有beforeCrreate和created
+泛型
+    <Type>(arg:Type)=>Type
+    {<Type>(arg:Type):Type}
+interface和type区别
+	interface可以继承，type只能&
+declare
+    声明文件 xx.d.ts
+        declar $(selector:string)=>{
+            click():void;
+            dbClick():void;
+        }
+    在tsconfig的include添加.d.ts文件
+vue模块找不到
+    在env.d.ts文件中添加
+    declare module '*.vue' {
+        import type { DefineComponent } from 'vue';
+        const vueComponent: DefineComponent<{}, {}, any>;
+        export default vueComponent;
+    }
+组件引用
+    需要defineExpose才可以访问到
+插件
+    volar 
+    Vue VSCode Snippets  代码片段 vbase
+    vue peek 快速跳转组件定义文件
+
+
+
+
+
+
+
+
+
+启动项目报错postcss
+    添加文件postcss.config.cjs
+    module.exports = {
+        plugins: {
+            // autoprefixer: {
+            //   overrideBrowserslist: [
+            //     'Android 4.1',
+            //     'iOS 7.1',
+            //     'Chrome > 31',
+            //     'not ie <= 11',
+            //     'ff >= 30',
+            //     '> 1%',
+            //     'last 2 versions' // 所有主流浏览器最近2个版本
+            //   ],
+            //   grid: true
+            // },
+            'postcss-pxtorem': {
+            rootValue: 16,
+            unitPrecision: 6,
+            selectorBlackList: ['.no-rem', 'no-rem'],
+            propList: ['*'],
+            replace: true,
+            mediaQuery: true,
+            minPixelValue: 2,
+            exclude: /node_modules/i
+            }
+        }
+        }
+https://blog.csdn.net/tonetwo/article/details/127494320

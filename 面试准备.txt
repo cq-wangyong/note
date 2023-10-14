@@ -1,0 +1,79 @@
+tcp三次握手
+	第一次：客户端发送一个syn包，客户进入syn_sent状态
+	第二次：服务端收到sync包，需要确认客户端的syn，同时自己也发送一个syn包，即ACK+syn包，服务端进入syn_recv状态
+	第三次：客户端收到syn+ACK包，向服务端发送一个确认包ACK，发送完毕双方建立链接
+
+http和https区别：
+	1.端口号不同，http80,https443
+	2.证书申请方式不同，http协议免费申请，https需要到ca申请证书，一般免费证书少，需要缴费
+	3.http是超文本传输协议，信息是明文传输；https则是使用具有安全性的ssl加密传输协议
+
+http协议是一个基于TCP/IP通信协议的，用于从服务器传输超文本到本地浏览器的传输协议
+
+http缓存：
+	强缓存：Cache-Control:max-age=31536000；（expires）
+	协商缓存：第一次请求资源，服务器返回last-modify，客户端下次请求会加上if-modify-since，如果命中则返回304读取缓存；(Etag/If-None-Match)
+
+事件循环机制
+	先执行同步，在执行异步任务，再执行异步微任务promise.then，先执行异步宏任务script,setinterval,settimeout
+
+浏览器渲染页面的过程：
+	dns解析获得ip地址；
+	建立tcp连接；
+	浏览器向服务器发送请求
+	服务器向浏览器返回一条响应报文
+	解析文档，关闭连接
+
+	HTML解析出DOM Tree
+	CSS解析出Style Rules（CSSOM css object model）
+	将二者关联生成Render Tree
+	Layout 根据Render Tree计算每个节点的信息
+	Painting 根据计算好的信息绘制整个页面
+
+defer和async的区别
+	async加载完成后立即执行，谁先加载完成就执行谁
+	defer所有dom解析完成后，在DOMContentLoaded事件之前才执行，会按照顺序执行
+
+vue2为啥不能监听数组下标修改和对象属性新增和删除
+	vue2重写了数组原型对象的pop、push、shift、unshift、sort、reverse、splice等方法实现
+	对象属性新增和删除是因为在初始化实例时对属性进行劫持，所以属性要在data里面
+grid布局
+	grid-template-columns:1fr 2fr;minmax repeat(3,1fr)
+	grid-auto-rows 设置元素高度 minmax(100px, auto)
+	gap:行间隔 列间隔；
+	align-items: center;上下对齐，设置在父元素 align-self,设置在子元素上，start center end stretch
+	justify-items:左右对齐 justify-slef
+	place-items:上下 左右 ；place-self
+上传
+	拖动上传
+	图片预览 URL.createObjectURL(file) new FileReader() reader.readAsURL(file) reader.onload
+	分片上传
+		slice分片
+		spark-md5生成文件hash  spark.append() spark.end()得到hash
+
+git stash list
+git stash save ''
+git stash apply  stash@{1}
+git stash pop
+rr-ir-sr-ar-fe-task-bug
+
+css面试题：https://zhuanlan.zhihu.com/p/471197797
+
+ts
+	interface,type,泛型，enum，联合类型|，交叉类型&
+性能优化：
+	https://blog.csdn.net/m0_37138425/article/details/130683100
+	1.压缩合并文件，压缩js，css，使用雪碧图，压缩图片，延迟加载图片
+	4.懒加载路由
+	5.分页或者虚拟列表
+	6.合理利用浏览器缓存，使用cdn加快静态资源的加载
+	2.js使用defer异步加载脚本，避免阻塞页面渲染
+	3.减少重绘（属性改变），重排（距离改变）；使用css3的动画代替js动画，并使用 requestAnimationFrame 来优化动画性能。
+	使用intersection observer代替滚动事件
+
+vue3/pinia原理
+webpack/vite工程化
+
+7b 15k
+8b 19k
+9b 25k

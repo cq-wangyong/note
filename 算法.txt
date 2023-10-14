@@ -1,0 +1,129 @@
+算法复杂度
+    算法复杂度旨在计算在输入数据量 N 的情况下，算法的「时间使用」和「空间使用」情况；
+    时间： 假设各操作的运行时间为固定常数，统计算法运行的「计算操作的数量」 ，以代表算法运行所需时间；
+    空间： 统计在“最差情况下”，算法运行所需使用的「最大空间」；
+
+    「输入数据大小 N 」指算法处理的输入数据量；根据不同算法，具有不同定义，例如：
+        排序算法： N 代表需要排序的元素数量；
+        搜索算法： N 代表搜索范围的元素总数，例如数组大小、矩阵大小、二叉树节点数、图节点和边数等；
+
+    时间复杂度：
+        根据输入数据的特点，时间复杂度具有「最差」、「平均」、「最佳」三种情况，分别使用 OO , \ThetaΘ , \OmegaΩ 三种符号表示。
+        对数：a的x次方等于N；x就等于以a为底N的对数
+        常数O(1):运行次数与 NN 大小呈常数关系，即不随输入数据大小 NN 的变化而变化。
+        线性O(N)：循环运行次数与 NN 大小呈线性关系，时间复杂度为 O(N) 。-->for循环
+        平方O(N平方)：两层循环相互独立，都与 NN 呈线性关系，因此总体与 NN 呈平方关系。-->双层for循环
+        指数O(2的N次方)：例如细胞分裂
+        阶乘O(N!):N*(N-1)*(N-2)...*2*1=N!;例子不是很理解；
+        对数阶O(logN)
+        线性对数
+
+数据结构
+    线性数据结构
+        数组、链表、栈、队列
+    非线性数据结构
+        树、堆、散列表、图
+
+动态规划
+    分治思想、空间换时间、重叠子问题、最优子结构
+
+    斐波那契数列0 1 1 2 3 5
+    暴力递归和记忆递归(立即执行函数，将结果缓存起来)
+    动态规划：
+        递归是从后往前推，动态规划则是从前往后推
+    求最值一般都有[重叠子问题]和[最优子结构]特点，适合动态规划
+
+二叉树
+    前序：根-左-右
+    中序：左-根-右
+    后序：左-右-根
+    层序：从上至下，总左至右
+
+质数：除了1和它本身以外不再有其他因数的自然数
+质因数或质因子：能整除给定正整数的质数（1不算质因子）（质因数一般只求一半）
+
+
+递归
+分治策略
+单调栈（一侧大的数，力扣496）	
+    https://www.jianshu.com/p/e2f68b864a55
+    当前元素右侧找比当前元素大的元素;
+    循环数组
+    如果栈为空或者当前元素小于等于栈顶元素，那么将该元素推入栈中，
+    如果当前元素大于栈顶元素，循环栈，如果栈长度大于0并且当前元素大于栈顶元素（栈顶元素是动态的），则记录下来，并将栈内元素去掉
+
+    var nextGreaterElement = function(nums1, nums2) {
+    let stack=[];
+    let map={};
+    for(i=0;i<nums2.length;i++){
+        if(stack.length==0 ||  nums2[i]<= stack[stack.length-1]){
+            stack.push(nums2[i])
+        }else{
+            while(stack.length>0&& nums2[i]>stack[stack.length-1]){
+                map[stack[stack.length-1]] = nums2[i];
+                stack.pop();
+            }
+            stack.push(nums2[i])
+        }
+    }
+    return nums1.map((item)=>{
+        return map[item] || -1
+    })
+};
+并查集
+滑动窗口（求最长不重复子串，力扣3）
+    一般求子串用滑动窗口，分左右指针，循环有指针
+    var lengthOfLongestSubstring = function(s) {
+        let left=0,right=0;
+        let n = s.length;
+        let num=0;
+        while(right<n){
+            let str = s.slice(left,right);
+            if(str.indexOf(s[right]) === -1){
+                if(right === n-1){
+                    num = Math.max(num,right-left+1);
+                }
+                right++;
+            }else{
+                num = Math.max(num,right-left);
+                left++;
+            }
+        }
+        return num;
+    };
+前缀和【&哈希表优化】力扣560
+    连续子数组的个数
+    var subarraySum = function(nums, k) {
+
+    let preSum = [];
+    preSum[0]=0;
+    nums.forEach((item,index)=>{
+    preSum[index+1]=preSum[index]+item;
+    })
+    let count=0;
+    for(let i=0;i<preSum.length;i++){
+        for(let j=i+1;j<preSum.length;j++){
+            if(preSum[j]-preSum[i] === k){
+                count++;
+            }
+        }
+    }
+    return count
+    };
+差分
+拓扑排序
+二分查找
+BFS广度优先搜索（最短路径（最少）适合bfs）
+    会有一个列表来存放符合要求的节点，已力扣200为例
+    循环二维数组，找到为1的点，数量加一，将此节点放入列表，调用bfs；
+    bfs循环列表，再循环四个方向，如果超出边界或者为0时，结束本次循环；
+    满足条件的就将节点重置为0，并将此节点放入列表
+DFS深度优先搜索（是否有结果适合dfs）
+    力扣200
+    dfs一般有结束条件，然后是分支调用dfs
+动态规划
+贪心算法
+字典树
+
+
+
