@@ -146,7 +146,14 @@ vue模块找不到
     volar 
     Vue VSCode Snippets  代码片段 vbase
     vue peek 快速跳转组件定义文件
-
+自动导入插件，解决频繁导入问题
+    unplugin-auto-import
+    1.在 vite.config.js中配置，生成auto-imports.d.ts
+    AutoImport({
+      imports: ['vue', 'vue-router']
+    }),
+    2.tsconfig.app.json中配置
+     "include": ["auto-imports.d.ts"],
 
 
 
