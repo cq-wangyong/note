@@ -15,7 +15,7 @@ http缓存：
 	协商缓存：第一次请求资源，服务器返回last-modify，客户端下次请求会加上if-modify-since，如果命中则返回304读取缓存；(Etag/If-None-Match)
 
 事件循环机制
-	先执行同步，在执行异步任务，再执行异步微任务promise.then，先执行异步宏任务script,setinterval,settimeout
+	先执行同步，在执行异步任务，先执行异步微任务promise.then，再执行异步宏任务script,setinterval,settimeout
 
 浏览器渲染页面的过程：
 	dns解析获得ip地址；
@@ -37,6 +37,14 @@ defer和async的区别
 vue2为啥不能监听数组下标修改和对象属性新增和删除
 	vue2重写了数组原型对象的pop、push、shift、unshift、sort、reverse、splice等方法实现
 	对象属性新增和删除是因为在初始化实例时对属性进行劫持，所以属性要在data里面
+vue2的双向数据绑定原理是什么
+	通过数据劫持和发布订阅模式来实现，同时利用objet.defineProperty()劫持属性的getter和setter，在数据发生变化的时候发布消息给订阅者，触发对应的监听回调函数渲染视图，也就是说视图跟随数据变化而变化。
+	dep依赖收集器
+	第一步：需要observer数据对象遍历递归，包括子属性加上getter setter
+	第二步：compile解析模板指令，将模板中的变量替换成数据，然后初始化渲染视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，
+	第三步：wather订阅者，是observer和compile通信的桥梁，在自身实例化的时候
+
+	reactive将数据转化为可观察对象 deps
 grid布局
 	grid-template-columns:1fr 2fr;minmax repeat(3,1fr)
 	grid-auto-rows 设置元素高度 minmax(100px, auto)
@@ -45,16 +53,12 @@ grid布局
 	justify-items:左右对齐 justify-slef
 	place-items:上下 左右 ；place-self
 上传
-	拖动上传
+	拖动上传 ondragenter ondragover ondragover e.preventDefault(); e.dataTransfer.types e.dataTransfer.files
 	图片预览 URL.createObjectURL(file) new FileReader() reader.readAsURL(file) reader.onload
 	分片上传
 		slice分片
 		spark-md5生成文件hash  spark.append() spark.end()得到hash
 
-git stash list
-git stash save ''
-git stash apply  stash@{1}
-git stash pop
 rr-ir-sr-ar-fe-task-bug
 
 css面试题：https://zhuanlan.zhihu.com/p/471197797
@@ -70,6 +74,18 @@ ts
 	2.js使用defer异步加载脚本，避免阻塞页面渲染
 	3.减少重绘（属性改变），重排（距离改变）；使用css3的动画代替js动画，并使用 requestAnimationFrame 来优化动画性能。
 	使用intersection observer代替滚动事件
+
+git clone url
+git pull
+git checkout -b name
+git checkout name 
+git push --set-upstream origin name
+git add .
+git commit -m '' 
+git stash save '' 
+git stash list
+git stash pop
+git stash apply stash@{}
 
 vue3/pinia原理
 webpack/vite工程化
