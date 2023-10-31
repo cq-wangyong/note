@@ -27,13 +27,27 @@ v-on.native修饰符删除
 --------------------------------------------------------------------------------------------------------------
 ref 深层响应 更新时机
 事件修饰符 按键修饰符 表单修饰符 number trim lazy
-watch和计算属性 watch数据源（ref,reactive,getter函数，数组）;get函数是浅层监听;及时回调监听器immediate;watchEffect;flush
-模板引用 const child=ref(null) for循环则定义一个数组
-defineProps中的函数不能访问setup中定义的变量
-透传attribute 多根节点 v-bind="$attrs"；访问透传属性，const attrs = useAttrs()
-插槽，v-slot:header <template #header>  <slot name>
-依赖注入 provide inject解决了多层级传属性的问题；建议使用symbol作为健名
+watch和计算属性 watch数据源（ref,reactive,getter函数，数组）;get函数是浅层监听;及时回调监听器immediate;dom更新后flush;watchEffect;watchPostEffect;
+v-model
+    modelValue update:model modelmodifiers
+    v-model:title  title update:title.capitalize titleModifiers
+defineProps(对象和数组语法)
+    let props = defineProps(['title']);html中可以直接使用，js中props.title
+    泛型定义类型无法设置默认值，使用withDefault(defineProps<>(),{})
+    defineProps中的函数不能访问setup中定义的变量
+defineEmits(对象和数组语法)
+    let emit = defineEmits(['inFocus']) emit('inFocus',{})
+模板引用 
+    const child=ref(null) for循环则定义一个数组
+插槽
+    v-slot:header <template #header>  <slot name>
+依赖注入 
+    provide inject解决了多层级传属性的问题；建议使用symbol作为健名
+    provide(key,value) inject(key,defaultValue)
+    provide(){ return {} }函数形式可以访问this，inject:[key,key]
 异步组件defineAsyncComponent  路由还是原来的方式
+    defineAsyncComponent(()=>import(''))
+透传attribute 多根节点 v-bind="$attrs"；访问透传属性，const attrs = useAttrs()
 组合式函数，use开头，返回值包含多个ref的对象
 自定义指令，以v开头，生命周期改了 el绑定的元素，binding（value,oldValue,args冒号,modifier点）
 插件 可以是一个包含install方法的对象也可以是函数本身，全局组件或者指令或者provide或者全局属性，app.use(plugin)进行注册
