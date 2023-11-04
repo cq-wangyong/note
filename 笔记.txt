@@ -1,6 +1,6 @@
 wy wy@szlyfy.net
 cq-wangyong 291246058@qq.com
-
+1
 git设置用户名邮箱
     全局：git config --global user.name "your_username"
     当前项目：git config user.name "your_username"
