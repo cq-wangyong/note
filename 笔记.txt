@@ -1,6 +1,17 @@
 wy wy@szlyfy.net
 cq-wangyong 291246058@qq.com
+
+git设置用户名邮箱
+    全局：git config --global user.name "your_username"
+    当前项目：git config user.name "your_username"
 拖拽
     ondragstart ondragover ondragenter ondrop
     ondrop触发需要ondragover preventDefault()
     e.dataTransfer.effectAllowed改变鼠标样式
+grid布局
+	grid-template-columns:1fr 2fr;minmax repeat(3,1fr) repeat(auto-fill,minmax(100px,1fr))
+	grid-auto-rows 设置元素高度 minmax(100px, auto)
+	gap:行间隔 列间隔；
+	align-items: center;上下对齐，设置在父元素 align-self,设置在子元素上，start center end stretch
+	justify-items:左右对齐 justify-slef
+	place-items:上下 左右 ；place-self   
