@@ -27,7 +27,7 @@ v-on.native修饰符删除
 --------------------------------------------------------------------------------------------------------------
 ref 深层响应 更新时机
 事件修饰符 按键修饰符 表单修饰符 number trim lazy
-watch和计算属性 watch数据源（ref,reactive,getter函数，数组）;get函数是浅层监听;及时回调监听器immediate;dom更新后flush;watchEffect;watchPostEffect;
+watch和计算属性 watch数据源（ref,reactive,getter函数，数组）;get函数是浅层监听;及时回调监听器immediate;dom更新后flush;watchEffect（只收集同步依赖）;watchPostEffect;
 v-model
     modelValue update:model modelmodifiers
     v-model:title  title update:title.capitalize titleModifiers
@@ -120,13 +120,23 @@ axios.post('url',{})
 
 
 ----------------------------------------------------易忘点------------------------------------------------------
+ref和reactive
+    创建的变量是深层响应式
+    reactive局限性
+        不能替换整个对象；解构不友好（解构或者传递给函数参数）；只适用于对象类型
+    自动解包
+        只有顶层ref在模板中会自动解包
+        非顶层ref作为最终值也会自动解包
+        ref作为reactive的属性（浅层相应对象时不会自动解包）
+        
+        ref作为对象或者map的响应式对象不会解包
 挂载全局属性 
     app.config.globalProperties.propertyName = value;
     setup中获取全局属性const {proxy} = getCurrentInstance();proxy.propertyName;ctx生产环境获取不到
 ref相关的方法
     isRef() unref() toRow()返回reactive的原始对象
 watch
-    watch watchEffect watchPostEffect
+    watch watchEffect（只收集同步依赖） watchPostEffect
     { immediate: true } 立即执行
     { flush: 'post' } dom更新之后
 suspense

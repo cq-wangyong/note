@@ -90,6 +90,42 @@ ts
 	2.js使用defer异步加载脚本，避免阻塞页面渲染
 	3.减少重绘（属性改变），重排（距离改变）；使用css3的动画代替js动画，并使用 requestAnimationFrame 来优化动画性能。
 	使用intersection observer代替滚动事件
+工程化优化
+	性能优化：https://blog.csdn.net/qq_39071178/article/details/131045964
+	https://segmentfault.com/a/1190000017500217
+	代码规范
+		eslint prettier
+		代码规范：https://blog.csdn.net/du_aitiantian/article/details/130326158
+	兼容性
+		css reset normalize.css
+		Polyfill是一个术语,它指的是一段编写的代码,旨在将新的Web API的功能提供给旧的浏览器
+		browserslist
+		postcss 和 babel 分别以什么要求来对 css 和 js 代码进行兼容性编译
+	webpack打包优化
+		去掉console，
+	webpack基本原理
+
+axios封装，ui组件二次封装
+	axios封装： https://juejin.cn/post/7053471988752318472?searchId=202311081056424E35629F513B4A8C3272#heading-7
+		拦截器、请求处理、错误处理、请求重试、取消请求
+		function abortRequest(){
+			let controller = new AbortController();
+			return function(url,data){
+				controller.abort();
+				return axios.post(url,data,{
+					signal:controller.signal
+				})
+			}
+		}
+	组件二次封装：https://juejin.cn/post/7262343902889197629#heading-2
+es6知识点
+	https://juejin.cn/post/7296796593503649811
+echarts
+	大数据量卡顿
+		取消一切动画
+		分段加载；数据聚合
+		echart和option不写在data中
+		setoption动态加载
 
 git clone url
 git pull

@@ -1,0 +1,156 @@
+快速入门
+    函数 return()；必须包裹到一个父级，或者<></>中
+    组件大写字母开头
+    添加类名className
+    添加样式link标签
+    显示数据{};动态属性也是大括号src={url}
+    条件渲染就是js if语句
+    列表渲染，需要指定key
+    绑定事件 onClick={funName}
+    更新界面
+        import {useState} from 'react'
+        const [count , setCount] = useState(0)
+        setCount之后取到的值不会立马更新
+    使用hook
+        use开头的函数被称为hook
+        只能在顶层调用hook
+    组件共享数据
+        父传子 props
+        function myButton({count,onClick}){}
+创建项目
+    全局安装脚手架：npm install -g create-react-app
+    create-react-app projectName
+描述ui
+    setCount快照问题
+    immer
+        const [person, updatePerson] = useImmer({})
+        function handleNameChange(e) {
+            updatePerson(draft => {
+            draft.name = e.target.value;
+            });
+        }
+    更新数组：用新数组替换
+    更新对象：解构或者immer
+状态管理
+    useState
+    之前都是直接设置状态来更改，会比较乱
+    reducer（一定是返回一个新的数组）
+        不应该包含异步请求或者定时器
+        import { useReducer } from 'react';
+        const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+        dispatch({
+            type: 'added',
+            id: nextId++,
+            text: text,
+        });
+        function tasksReducer(tasks, action) {
+            switch (action.type) {
+                case 'added': {
+                return [
+                    ...tasks,
+                    {
+                    id: action.id,
+                    text: action.text,
+                    done: false,
+                    },
+                ];
+                }
+                case 'changed': {
+                return tasks.map((t) => {
+                    if (t.id === action.task.id) {
+                    return action.task;
+                    } else {
+                    return t;
+                    }
+                });
+                }
+                case 'deleted': {
+                return tasks.filter((t) => t.id !== action.id);
+                }
+                default: {
+                throw Error('未知 action: ' + action.type);
+                }
+            }
+        }
+    useImmerReducer（push或者下标来修改，直接修改的就是break，否则return新数组）
+        import { useImmerReducer } from 'use-immer';
+        const [tasks, dispatch] = useImmerReducer(tasksReducer, initialTasks);
+        function tasksReducer(draft, action) {
+            switch (action.type) {
+                case 'added': {
+                draft.push({
+                    id: action.id,
+                    text: action.text,
+                    done: false,
+                });
+                break;
+                }
+                case 'changed': {
+                const index = draft.findIndex((t) => t.id === action.task.id);
+                draft[index] = action.task;
+                break;
+                }
+                case 'deleted': {
+                return draft.filter((t) => t.id !== action.id);
+                }
+                default: {
+                throw Error('未知 action：' + action.type);
+                }
+            }
+        }
+    context深层传递（provide/inject）
+        第一步创建：LevelContext.js
+            import { createContext } from 'react';
+            export const LevelContext = createContext(1);
+        第二步提供：section组件
+            import { LevelContext } from './LevelContext.js';
+            <section className="section">
+                <LevelContext.Provider value={level}>
+                    {children}
+                </LevelContext.Provider>
+            </section>
+        第三步使用：heading组件
+            import { useContext } from 'react';
+            import { LevelContext } from './LevelContext.js';
+            const level = useContext(LevelContext);
+        可以和state结合起来使用
+应急方案
+    ref
+        记住某些状态但是不触发视图渲染
+        import { useRef } from 'react';
+        const ref = useRef(0);
+
+        通常用来管理dom
+        const myRef = useRef(null);
+        <div ref={myRef}>
+
+        想要访问其他组件的dom需要其它组件允许
+            const MyInput = forwardRef((props, ref) => {
+                return <input {...props} ref={ref} />;
+            });
+    effect
+        import { useEffect } from 'react';
+        useEffect(() => {
+            
+        },[isPlaying]);
+        通过数组指定eddect依赖，如果isPlaying相同则不会重新渲染，如果传空数组只会在组件挂载后执行
+        useEffect添加清理函数return()=>{}
+        useEffect里面做了什么那么清理函数里面就需要取消什么
+    自定义hook
+        命名公约：use开头
+        自定义 Hook 共享的只是状态逻辑而不是状态本身。        
+
+------------------------------------------------------------------------------------
+计算属性
+    useState的变量计算得到的变量
+侦听器
+父子传值
+生命周期
+指令
+插件
+状态管理
+路由
+请求axios
+context 
+插槽 children slot
+nextTick() useEffect
