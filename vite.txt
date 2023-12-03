@@ -1,0 +1,18 @@
+为什么选vite
+    vite 结合了rollup和esm
+    缓慢的服务器启动
+        模块区分为依赖和源码
+            依赖：Vite 将会使用 esbuild 预构建依赖。esbuild（极速JavaScript打包器） 使用 Go 编写
+            源码：Vite 以 原生 ESM 方式提供源码
+    缓慢的更新
+        vite中，hmr是在原生esm上执行的，大多数只需要改变模块本身
+        vite利用http头来加速页面重新加载
+            源码模块会进行协商缓存
+            依赖模块会进行强缓存
+    原生esm会导致额外的网络往返，为了在生产环境中获得最佳的加载性能，最好还是将代码进行 tree-shaking、懒加载和 chunk 分割（以获得更好的缓存）。
+    为何不用esbuild打包
+        vite插件api和esbuild不兼容，Vite 采用了 Rollup 灵活的插件 API 和基础建设
+开始
+    使用vite构建vue项目：
+        npm create vite@latest my-vue-app -- --template vue
+    可以更改根目录，配置文件vite.config.js需要移动到新的根目录下

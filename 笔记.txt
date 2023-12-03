@@ -8,10 +8,26 @@ git设置用户名邮箱
     ondragstart ondragover ondragenter ondrop
     ondrop触发需要ondragover preventDefault()
     e.dataTransfer.effectAllowed改变鼠标样式
+
+	拖拽库
+		sortablejs
+		vue-draggable-resizable
+		vue2/vue3拖拽：https://alfred-skyblue.github.io/vue-draggable-plus/?from=ipkd.cn
 grid布局
 	grid-template-columns:1fr 2fr;minmax repeat(3,1fr) repeat(auto-fill,minmax(100px,1fr))
 	grid-auto-rows 设置元素高度 minmax(100px, auto)
 	gap:行间隔 列间隔；
 	align-items: center;上下对齐，设置在父元素 align-self,设置在子元素上，start center end stretch
 	justify-items:左右对齐 justify-slef
-	place-items:上下 左右 ；place-self   
+	place-items:上下 左右 ；place-self  
+ 
+ 请求响应进度条
+	XHR（上传/下载） Fetch（下载）
+圈复杂度
+	降低分支和循环
+sso单点登录
+逻辑方向
+	maring-block-start
+	text-combile-upright:all
+可编辑div
+	contenteditable = true
