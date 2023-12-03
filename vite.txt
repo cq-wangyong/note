@@ -1,5 +1,14 @@
+常见配置
+    https://blog.csdn.net/m0_55357295/article/details/128322526
+rollup
+    编译js(编译成其他模块格式)、tree-shaking
+    配置文件：rollup.config.js 或 rollup.config.mjs
+    使用rollup运行配置文件
+        rollup --config my.config.js
+
 为什么选vite
-    vite 结合了rollup和esm
+    esbuild rollup esm
+    vite 结合了rollup和esm,esbuild（go，多线程）预加载依赖项
     缓慢的服务器启动
         模块区分为依赖和源码
             依赖：Vite 将会使用 esbuild 预构建依赖。esbuild（极速JavaScript打包器） 使用 Go 编写

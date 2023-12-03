@@ -31,3 +31,6 @@ sso单点登录
 	text-combile-upright:all
 可编辑div
 	contenteditable = true
+volta
+	volta install/uninstall node@14
+	volta pin node@12
